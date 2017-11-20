@@ -1,0 +1,78 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'RudraAks Utility',
+                   'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	
+	
+    compile("org.springframework.boot:spring-boot-starter-web") {
+		exclude module: "spring-boot-starter-tomcat"
+	}
+	compile("org.springframework.boot:spring-boot-starter-jetty")
+	compile group: 'org.springframework', name: 'spring-orm', version: '4.3.10.RELEASE'
+	
+	compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.10.Final'
+	
+	compile ('mysql:mysql-connector-java:6.0.2')
+	
+	compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+	
+	// java mail api for mail utils 
+	compile group: 'javax.mail', name: 'javax.mail-api', version: '1.5.5'
+	compile group: 'com.sun.mail', name: 'javax.mail', version: '1.5.5'
+	
+	//quartz based scheduling
+	compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.2'
+	compile group: 'org.quartz-scheduler', name: 'quartz-jobs', version: '2.2.2'
+	
+	
+	// for junit test cases with spring boot test
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.5.6.RELEASE'
+	testCompile group: 'junit', name: 'junit', version: '4.+'
+				
+}
+
+sourceSets {
+	
+	main.java.srcDir "src/main/java"
+	main.resources.srcDir "src/main/resources"
+	test.java.srcDir "src/test/java"
+	test.resources.srcDir "src/test/resources"
+}
+
+test {
+    systemProperties 'property': 'value'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
+
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.5.RELEASE")
+	}
+}
